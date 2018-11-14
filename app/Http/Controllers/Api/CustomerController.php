@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCustomer;
+use App\Http\Requests\UpdateCustomer;
+use App\Http\Resources\Customer as CustomerResource;
+use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
@@ -14,17 +17,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
-    }
+        return CustomerResource::collection(Customer::all());
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -33,9 +27,10 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCustomer $request)
     {
-        //
+        $customer = Customer::create($request->all());
+        return response()->json(new CustomerResource($customer), Response::HTTP_CREATED);
     }
 
     /**
@@ -46,18 +41,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
-    {
-        //
+        return new CustomerResource($customer);
     }
 
     /**
@@ -67,9 +51,10 @@ class CustomerController extends Controller
      * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(UpdateCustomer $request, Customer $customer)
     {
-        //
+        $customer->update($request->all());
+        return new CustomerResource($customer);
     }
 
     /**
@@ -80,6 +65,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

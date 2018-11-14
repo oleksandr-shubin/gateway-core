@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Company;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCompany;
+use App\Http\Requests\UpdateCompany;
+use App\Http\Resources\Company as CompanyResource;
+use Illuminate\Http\Response;
 
 class CompanyController extends Controller
 {
@@ -14,17 +17,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return CompanyResource::collection(Company::all());
     }
 
     /**
@@ -33,9 +26,10 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCompany $request)
     {
-        //
+        $company = Company::create($request->all());
+        return response()->json(new CompanyResource($company), Response::HTTP_CREATED);
     }
 
     /**
@@ -46,18 +40,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Company $company)
-    {
-        //
+        return new CompanyResource($company);
     }
 
     /**
@@ -67,9 +50,10 @@ class CompanyController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompany $request, Company $company)
     {
-        //
+        $company->update($request->all());
+        return new CompanyResource($company);
     }
 
     /**
@@ -80,6 +64,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        $company->delete();
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

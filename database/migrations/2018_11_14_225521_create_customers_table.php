@@ -17,11 +17,11 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
             $table->string('given_name');
             $table->string('family_name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->integer('company_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
