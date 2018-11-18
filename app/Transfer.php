@@ -10,4 +10,9 @@ class Transfer extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function scopeOfMonth($query, int $month)
+    {
+        return $query->whereMonth('transfers.created_at', $month);
+    }
 }

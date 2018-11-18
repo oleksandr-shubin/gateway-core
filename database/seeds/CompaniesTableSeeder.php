@@ -13,8 +13,8 @@ class CompaniesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Company::class, 20)->create()->each(function ($company) {
-            $company->customers()->saveMany(factory(Customer::class, 20)->make());
+        factory(Company::class, 2)->create()->each(function ($company) {
+            $company->customers()->saveMany(factory(Customer::class, 2)->make());
         });
     }
 }

@@ -12,4 +12,9 @@ class Company extends Model
     {
         return $this->hasMany(Customer::class);
     }
+
+    public function transfers()
+    {
+        return $this->hasManyThrough(Transfer::class, Customer::class);
+    }
 }
