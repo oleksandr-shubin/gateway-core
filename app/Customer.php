@@ -12,4 +12,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
 }

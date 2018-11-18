@@ -19,7 +19,9 @@ class CustomerTest extends TestCase
     {
         $this->assertTrue(self::FACTORY_AMOUNT > CustomerController::PER_PAGE);
 
-        factory(Customer::class, self::FACTORY_AMOUNT)->create();
+        factory(Customer::class, self::FACTORY_AMOUNT)
+            ->states('with_company')
+            ->create();
 
         $this
             ->getJson(route('customer.index'))
@@ -32,7 +34,10 @@ class CustomerTest extends TestCase
      */
     public function it_can_store_customer()
     {
-        $customerData = factory(Customer::class)->make()->toArray();
+        $customerData = factory(Customer::class)
+            ->states('with_company')
+            ->make()
+            ->toArray();
 
         $this
             ->postJson(route('customer.store'), $customerData)
@@ -47,7 +52,9 @@ class CustomerTest extends TestCase
      */
     public function it_can_show_customer()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(Customer::class)
+            ->states('with_company')
+            ->create();
 
         $this
             ->getJson(route('customer.show', $customer))
@@ -60,7 +67,9 @@ class CustomerTest extends TestCase
      */
     public function it_can_update_customer()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(Customer::class)
+            ->states('with_company')
+            ->create();
 
         $customer->fill(factory(Customer::class)->make()->toArray());
 
@@ -77,7 +86,9 @@ class CustomerTest extends TestCase
      */
     public function it_can_destroy_customer()
     {
-        $customer = factory(Customer::class)->create();
+        $customer = factory(Customer::class)
+            ->states('with_company')
+            ->create();
 
         $this
             ->deleteJson(route('customer.destroy', $customer))
