@@ -25,6 +25,7 @@ class StoreCompany extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'unique:companies'],
+            'quota' => ['required', 'integer', 'min:0'],
         ];
     }
 }

@@ -26,6 +26,7 @@ class UpdateCompany extends FormRequest
     {
         return [
             'name' => ['required', 'string', Rule::unique('companies')->ignore(request('company')->id)],
+            'quota' => ['required', 'integer', 'min:0'],
         ];
     }
 }
