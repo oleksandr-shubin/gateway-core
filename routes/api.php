@@ -21,6 +21,8 @@ Route::group(['prefix' => 'companies'], function() {
     Route::delete('/{company}', 'CompanyController@destroy')->name('company.destroy');
 });
 
+Route::get('/company-list', 'CompanyListController@index')->name('company-list.index');
+
 Route::group(['prefix' => 'customers'], function() {
     Route::get('/', 'CustomerController@index')->name('customer.index');
     Route::post('/', 'CustomerController@store')->name('customer.store');
@@ -28,3 +30,4 @@ Route::group(['prefix' => 'customers'], function() {
     Route::put('/{customer}', 'CustomerController@update')->name('customer.update');
     Route::delete('/{customer}', 'CustomerController@destroy')->name('customer.destroy');
 });
+

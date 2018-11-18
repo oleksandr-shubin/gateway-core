@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Customer;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomer;
 use App\Http\Requests\UpdateCustomer;
 use App\Http\Resources\Customer as CustomerResource;
@@ -10,21 +11,22 @@ use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
+    public const PER_PAGE = 10;
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return CustomerResource::collection(Customer::all());
-
+        return CustomerResource::collection(Customer::paginate(self::PER_PAGE));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreCustomer $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCustomer $request)
@@ -34,10 +36,11 @@ class CustomerController extends Controller
     }
 
     /**
+     *
      * Display the specified resource.
      *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @param  \App\Customer $customer
+     * @return CustomerResource
      */
     public function show(Customer $customer)
     {
@@ -47,9 +50,9 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @param UpdateCustomer $request
+     * @param  \App\Customer $customer
+     * @return CustomerResource
      */
     public function update(UpdateCustomer $request, Customer $customer)
     {
@@ -60,8 +63,9 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Customer  $customer
+     * @param  \App\Customer $customer
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Customer $customer)
     {

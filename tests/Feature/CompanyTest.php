@@ -3,24 +3,28 @@
 namespace Tests\Feature;
 
 use App\Company;
+use App\Http\Controllers\Api\CompanyController;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class CompanyTest extends TestCase
 {
-    public const TABLE = 'companies';
+    private const TABLE = 'companies';
+    private const FACTORY_AMOUNT = 15;
 
     /**
      * @test
      */
     public function it_can_index_companies()
     {
-        $companies = factory(Company::class, 10)->create();
+        $this->assertTrue(self::FACTORY_AMOUNT > CompanyController::PER_PAGE);
+
+        factory(Company::class, self::FACTORY_AMOUNT)->create();
 
         $this
             ->getJson(route('company.index'))
             ->assertStatus(Response::HTTP_OK)
-            ->assertJsonCount($companies->count(), 'data');
+            ->assertJsonCount(CompanyController::PER_PAGE, 'data');
     }
 
     /**

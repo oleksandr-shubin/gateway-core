@@ -3,24 +3,28 @@
 namespace Tests\Feature;
 
 use App\Customer;
+use App\Http\Controllers\Api\CustomerController;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class CustomerTest extends TestCase
 {
-    public const TABLE = 'customers';
+    private const TABLE = 'customers';
+    private const FACTORY_AMOUNT = 15;
 
     /**
      * @test
      */
     public function it_can_index_customers()
     {
-        $customers = factory(Customer::class, 10)->create();
+        $this->assertTrue(self::FACTORY_AMOUNT > CustomerController::PER_PAGE);
+
+        factory(Customer::class, self::FACTORY_AMOUNT)->create();
 
         $this
             ->getJson(route('customer.index'))
             ->assertStatus(Response::HTTP_OK)
-            ->assertJsonCount($customers->count(), 'data');
+            ->assertJsonCount(CustomerController::PER_PAGE, 'data');
     }
 
     /**
