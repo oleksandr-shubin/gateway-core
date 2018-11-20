@@ -17,4 +17,9 @@ class Company extends Model
     {
         return $this->hasManyThrough(Transfer::class, Customer::class);
     }
+
+    public function customersActiveAtMonth($month)
+    {
+        return $this->customers()->activeAtMonth($month);
+    }
 }

@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Service\AbuserService;
+use App\Service\AbuserCompanyService;
 use Illuminate\Http\Request;
 
-class ReportController extends Controller
+class AbuserCompanyController extends Controller
 {
-    private $abuserService;
+    private $abuserCompanyService;
 
-    public function __construct(AbuserService $abuserService)
+    public function __construct(AbuserCompanyService $abuserCompanyService)
     {
-        $this->abuserService = $abuserService;
+        $this->abuserCompanyService = $abuserCompanyService;
     }
 
     public function index(Request $request)
@@ -23,6 +23,6 @@ class ReportController extends Controller
 
         $month = intval($request->input('month'));
 
-        return $this->abuserService->findAbuserCompaniesByMonth($month);
+        return $this->abuserCompanyService->findAbuserCompaniesByMonth($month);
     }
 }

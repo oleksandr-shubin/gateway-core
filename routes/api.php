@@ -30,7 +30,10 @@ Route::group(['prefix' => 'customers'], function() {
 });
 
 Route::get('/company-list', 'CompanyListController@index')->name('company-list.index');
-Route::get('/report', 'ReportController@index')->name('report.index');
 Route::put('/transfer-data', 'TransferDataController@update')->name('transfer-data.update');
 
+Route::group(['prefix' => 'abusers/companies'], function () {
+    Route::get('/', 'AbuserCompanyController@index')->name('abuser-company.index');
+    Route::get('/{company}/customers', 'AbuserCustomerController@index')->name('abuser-customer.index');
+});
 

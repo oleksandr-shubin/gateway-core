@@ -17,4 +17,10 @@ class Customer extends Model
     {
         return $this->hasMany(Transfer::class);
     }
+
+    public function scopeActiveAtMonth($query, $month) {
+        return $query->whereHas('transfers', function ($query) use($month) {
+            $query->whereMonth('created_at', $month);
+        });
+    }
 }

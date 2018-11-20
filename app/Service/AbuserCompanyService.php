@@ -6,7 +6,7 @@ namespace App\Service;
 
 use Illuminate\Support\Facades\DB;
 
-class AbuserService
+class AbuserCompanyService
 {
     public function findAbuserCompaniesByMonth(int $month)
     {
