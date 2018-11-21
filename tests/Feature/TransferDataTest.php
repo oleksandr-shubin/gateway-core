@@ -5,9 +5,12 @@ namespace Tests\Feature;
 use App\Company;
 use App\Customer;
 use App\Http\Controllers\Api\TransferDataController;
+use App\Jobs\ProcessTransferDataGeneration;
 use App\Service\TransferDataService;
 use App\Transfer;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Bus;
+use Symfony\Component\Process\Process;
 use Tests\TestCase;
 
 class TransferDataTest extends TestCase
@@ -31,6 +34,22 @@ class TransferDataTest extends TestCase
             * TransferDataController::CUSTOMER_TRANSFERS_PER_MONTH_COUNT;
 
         $this->assertEquals($expectedTransfersCount, Transfer::count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_dispatch_data_generation_job()
+    {
+        Bus::fake();
+
+        $this->seedCompanyCustomers();
+
+        $this
+            ->putJson(route('transfer-data.update'))
+            ->assertStatus(Response::HTTP_OK);
+
+        Bus::assertDispatched(ProcessTransferDataGeneration::class);
     }
 
     private function seedCompanyCustomers()
