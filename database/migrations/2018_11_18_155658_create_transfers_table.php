@@ -15,12 +15,14 @@ class CreateTransfersTable extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('customer_id')->unsigned();
+            $table->integer('customer_id')->unsigned()->nullable();
+            $table->integer('company_id')->unsigned();
             $table->string('resource');
             $table->bigInteger('amount');
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -33,6 +35,7 @@ class CreateTransfersTable extends Migration
     {
         Schema::table('transfers', function (Blueprint $table) {
             $table->dropForeign(['customer_id']);
+            $table->dropForeign(['company_id']);
         });
 
         Schema::dropIfExists('transfers');

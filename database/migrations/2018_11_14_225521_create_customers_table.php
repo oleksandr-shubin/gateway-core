@@ -17,10 +17,12 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
             $table->string('given_name');
             $table->string('family_name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->integer('company_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
 
+            $table->unique(['email', 'deleted_at']);
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
@@ -34,6 +36,7 @@ class CreateCustomersTable extends Migration
     {
         Schema::table('customers', function (Blueprint $table) {
             $table->dropForeign(['company_id']);
+            $table->dropUnique(['email', 'deleted_at']);
         });
 
         Schema::dropIfExists('customers');

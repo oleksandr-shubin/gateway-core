@@ -11,7 +11,10 @@ $factory->define(App\Transfer::class, function (Faker $faker) {
 });
 
 $factory->state(App\Customer::class, 'with_customer', function (Faker $faker) {
+    $customer = factory(Customer::class)->state('with_company')->create();
+
     return [
-        'customer_id' => factory(Customer::class)->create()->id,
+        'customer_id' => $customer->id,
+        'company_id' => $customer->company_id
     ];
 });

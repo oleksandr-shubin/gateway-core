@@ -27,7 +27,15 @@ class UpdateCustomer extends FormRequest
         return [
             'given_name' => ['required', 'string', 'alpha'],
             'family_name' => ['required', 'string', 'alpha'],
-            'email' => ['required', 'email', Rule::unique('customers')->ignore(request('customer')->id)],
+            'email' => [
+                'required', 'email',
+                Rule::unique('customers')
+                    ->where(function ($query) {
+                        $query->where('deleted_at', null);
+                    })
+                    ->ignore(request('customer')->id)
+
+            ],
         ];
     }
 }

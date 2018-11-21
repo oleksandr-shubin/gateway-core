@@ -33,6 +33,7 @@ class TransferDataService
                     $startDate = $i . ' months';
 
                     $transfersPerMonth = $this->generateTransfers(
+                        $customer->company_id,
                         $startDate,
                         $customerTransfersPerMonthCount
                     );
@@ -45,11 +46,12 @@ class TransferDataService
         });
     }
 
-    private function generateTransfers($startDate, $customerTransfersPerMonthCount)
+    private function generateTransfers(int $companyId, string $startDate, int $customerTransfersPerMonthCount)
     {
         $transfersPerMonth = factory(Transfer::class, $customerTransfersPerMonthCount)->make();
-        $transfersPerMonth->each(function ($transfer) use ($startDate) {
+        $transfersPerMonth->each(function ($transfer) use ($startDate, $companyId) {
             $transfer->created_at = $this->faker->dateTimeInInterval($startDate, self::INTERVAL);
+            $transfer->company_id = $companyId;
         });
 
         return $transfersPerMonth;

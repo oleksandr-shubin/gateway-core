@@ -33,6 +33,7 @@ trait CreatesCompany
                 'amount' => $abuser
                     ? $company->quota
                     : $this->findQuotaAbidingTransferAmount($company->quota, $companyTransfersCount),
+                'company_id' => $customer->company_id,
             ]));
         }
 
