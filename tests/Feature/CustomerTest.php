@@ -71,14 +71,14 @@ class CustomerTest extends TestCase
             ->states('with_company')
             ->create();
 
-        $customer->fill(factory(Customer::class)->make()->toArray());
+        $customerData = array_except(factory(Customer::class)->make()->toArray(), 'company_id');
 
         $this
-            ->putJson(route('customer.update', $customer), $customer->toArray())
+            ->putJson(route('customer.update', $customer), $customerData)
             ->assertStatus(Response::HTTP_OK)
-            ->assertJsonFragment($customer->toArray());
+            ->assertJsonFragment($customerData);
 
-        $this->assertDatabaseHas(self::TABLE, $customer->toArray());
+        $this->assertDatabaseHas(self::TABLE, $customerData);
     }
 
     /**

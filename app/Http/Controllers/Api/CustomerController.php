@@ -56,7 +56,7 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomer $request, Customer $customer)
     {
-        $customer->update($request->all());
+        $customer->update($request->only('given_name', 'family_name', 'email'));
         return new CustomerResource($customer);
     }
 

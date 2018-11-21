@@ -28,7 +28,6 @@ class UpdateCustomer extends FormRequest
             'given_name' => ['required', 'string', 'alpha'],
             'family_name' => ['required', 'string', 'alpha'],
             'email' => ['required', 'email', Rule::unique('customers')->ignore(request('customer')->id)],
-            'company_id' => ['required', 'integer', 'exists:companies,id']
         ];
     }
 }

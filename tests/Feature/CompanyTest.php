@@ -62,14 +62,14 @@ class CompanyTest extends TestCase
     {
         $company = factory(Company::class)->create();
 
-        $company->fill(factory(Company::class)->make()->toArray());
+        $companyData = factory(Company::class)->make()->toArray();
 
         $this
-            ->putJson(route('company.update', $company), $company->toArray())
+            ->putJson(route('company.update', $company), $companyData)
             ->assertStatus(Response::HTTP_OK)
-            ->assertJsonFragment($company->toArray());
+            ->assertJsonFragment($companyData);
 
-        $this->assertDatabaseHas(self::TABLE, $company->toArray());
+        $this->assertDatabaseHas(self::TABLE, $companyData);
     }
 
     /**
